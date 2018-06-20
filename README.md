@@ -1,1 +1,1 @@
-# tn_bj
+Black Jack game project
