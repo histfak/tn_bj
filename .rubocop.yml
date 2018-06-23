@@ -6,4 +6,3 @@ Metrics/LineLength:
 
 Metrics/MethodLength:
   Max: 20
-

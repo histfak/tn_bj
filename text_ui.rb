@@ -3,6 +3,10 @@ class TextUi
 
   BET = 10
   BANK = 100
+  CHOICES = { c1: 'Enter 1 to skip a turn: ',
+              c2: 'Enter 2 to pick a card: ',
+              c3: 'Enter 3 to place cards on the table: ',
+              exit: 'Enter another key to exit: '}.freeze
 
   def initialize
     @dealer = Player.new('Dealer', BANK)
@@ -43,7 +47,9 @@ class TextUi
   end
 
   def choice
-    print 'Enter 1 to skip a turn, 2 to pick a card, 3 to place cards on the table: '
+    puts CHOICES[:c1]
+    puts CHOICES[:c2] if @player.hand.size < 3
+    puts CHOICES[:c3]
     gets.chomp.to_i
   end
 
