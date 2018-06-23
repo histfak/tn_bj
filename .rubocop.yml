@@ -1,11 +1,6 @@
 Documentation:
   Enabled: false
 
-Style/ClassVars:
-  Exclude:
-    - 'station.rb'
-    - 'train.rb'
-
 Metrics/LineLength:
   Max: 100
 
