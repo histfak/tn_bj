@@ -86,7 +86,7 @@ class Board
   end
 
   def view_board
-    print "#{@players.first.name}s cards are:"
+    print "#{@players.first.name}\'s cards are:"
     @players.first.hand.each(&:to_s)
     puts "\nTotal score: #{@players.first.score}"
     print 'Dealer cards: '

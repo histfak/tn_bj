@@ -17,7 +17,7 @@ class Main
       puts "#{@player.name}\'s account: $#{@player.account}"
       board = Board.new(@players)
       board.game
-      break if @player.account <= 0 && @dealer.account <= 0
+      break if @player.account <= 0 || @dealer.account <= 0
       puts 'Press any key if you want to play again or press Q to exit'
       command = gets.chomp
       break if %w[q Q].include?(command)
