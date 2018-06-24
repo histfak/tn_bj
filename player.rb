@@ -2,10 +2,11 @@ class Player
   attr_reader :name
   attr_accessor :hand, :account
 
-  def initialize(name, bank)
+  def initialize(name)
     @name = name
-    @account = bank
+    @account = 100
     @hand = []
+    validate!
   end
 
   def score
@@ -19,5 +20,9 @@ class Player
     end
     score += 10 if @hand.any? { |card| card.rank == 'A' } && score <= 11
     score
+  end
+
+  def validate!
+    raise 'Incorrect name!' if @name !~ /^\w+$/i
   end
 end
