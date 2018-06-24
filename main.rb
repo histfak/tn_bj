@@ -17,8 +17,12 @@ class Main
       puts "#{@player.name}\'s account: $#{@player.account}"
       board = Board.new(@players)
       board.game
-      if @player.account <= 0 || @dealer.account <= 0
+      if @player.account <= 0
         puts 'You lost all the money! Be careful, gambling is an addiction!'
+        break
+      end
+      if @dealer.account <= 0
+        puts 'You won!'
         break
       end
       puts 'Press any key if you want to play again or press Q to exit'
