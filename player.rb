@@ -22,6 +22,8 @@ class Player
     score
   end
 
+  protected
+
   def validate!
     raise 'Incorrect name!' if @name !~ /^\w+$/i
   end
