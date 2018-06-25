@@ -25,6 +25,6 @@ class Player
   protected
 
   def validate!
-    raise 'Incorrect name!' if @name !~ /^\w+$/i
+    raise 'Incorrect name!' unless (/^\w+$/i).match?(@name)
   end
 end
