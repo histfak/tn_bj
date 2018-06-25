@@ -93,9 +93,6 @@ class Board
     @interface.player_cards_msg(@players.first)
     @players.first.hand.each { |card| @interface.card_to_s(card) }
     @interface.total_score(@players.first)
-    @interface.dealer_cards_msg
-    @players.last.hand.each { |card| @interface.card_to_s(card) }
-    @interface.total_score(@players.last)
     @interface.new_line
   end
 end
