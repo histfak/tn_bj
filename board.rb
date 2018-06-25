@@ -1,11 +1,13 @@
 require_relative 'deck'
+require_relative 'interface'
 
 class Board
-  def initialize(players)
+  def initialize(players, interface)
     @players = players
     @deck = Deck.new
     @bank = 0
     @win = false
+    @interface = interface
     reset
   end
 
@@ -34,9 +36,9 @@ class Board
       if player.is_a?(Dealer)
         command = player.score >= 18 ? 3 : 1
       else
-        puts 'Enter 1 to pick a card' if player.hand.count < 3
-        puts 'Enter 2 to place cards on the table'
-        puts 'Enter 3 to skip the turn'
+        puts Interface::CHOICES[:c1] if player.hand.count < 3
+        puts Interface::CHOICES[:c2]
+        puts Interface::CHOICES[:c3]
         command = gets.chomp.to_i
       end
       case command
@@ -44,7 +46,9 @@ class Board
       when 2
         check!
         break
-      when 3 then puts 'skipping turn...'
+      when 3
+        @interface.skipping_turn
+        break
       end
     end
     check! if @players.any? { |player| player.hand.count == 3 }
@@ -56,21 +60,21 @@ class Board
     dealer = @players.last
     if (player.score > dealer.score && player.score <= 21) || (dealer.score > 21 && player.score <= 21)
       player.account += @bank
-      puts "#{player.name} wins"
-    elsif (dealer.score <= 21 || player.score > 21) || dealer.score != player.score
+      @interface.player_wins(player)
+    elsif dealer.score <= 21 || player.score > 21
       dealer.account += @bank
-      puts 'Dealer wins'
-    else
-      puts 'Draw!'
+      @interface.dealer_wins
+    elsif dealer.score == player.score
+      @interface.draw
     end
     @win = true
   end
 
   def view_all
     all_players do |player|
-      print "Player #{player.name} has: "
-      player.hand.each(&:to_s)
-      puts "\nTotal score is #{player.score}"
+      @interface.player_has(player)
+      player.hand.each { |card| @interface.card_to_s(card) }
+      @interface.total_score(player)
     end
   end
 
@@ -86,11 +90,12 @@ class Board
   end
 
   def view_board
-    print "#{@players.first.name}\'s cards are:"
-    @players.first.hand.each(&:to_s)
-    puts "\nTotal score: #{@players.first.score}"
-    print 'Dealer cards: '
-    @players.last.hand.count.times { print '* ' }
-    puts "\n"
+    @interface.player_cards_msg(@players.first)
+    @players.first.hand.each { |card| @interface.card_to_s(card) }
+    @interface.total_score(@players.first)
+    @interface.dealer_cards_msg
+    @players.last.hand.each { |card| @interface.card_to_s(card) }
+    @interface.total_score(@players.last)
+    @interface.new_line
   end
 end

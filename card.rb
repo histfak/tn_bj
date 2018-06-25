@@ -5,8 +5,4 @@ class Card
     @rank = rank
     @suit = suit
   end
-
-  def to_s
-    print " #{rank}#{suit} "
-  end
 end

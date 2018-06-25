@@ -4,36 +4,9 @@ require_relative 'deck'
 require_relative 'board'
 require_relative 'player'
 require_relative 'dealer'
+require_relative 'interface'
+require_relative 'casino'
 
-class Main
-  def start
-    print 'Please enter your name: '
-    name = gets.chomp
-    @players = []
-    @player = Player.new(name)
-    @dealer = Dealer.new
-    @players << @player << @dealer
-    loop do
-      puts "#{@player.name}\'s account: $#{@player.account}"
-      board = Board.new(@players)
-      board.game
-      if @player.account <= 0
-        puts 'You lost all the money! Be careful, gambling is an addiction!'
-        break
-      end
-      if @dealer.account <= 0
-        puts 'You won!'
-        break
-      end
-      puts 'Press any key if you want to play again or press Q to exit'
-      command = gets.chomp
-      break if %w[q Q].include?(command)
-    end
-  rescue RuntimeError => e
-    puts e.message
-    retry
-  end
-end
-
-bj = Main.new
+interface = Interface.new
+bj = Casino.new(interface)
 bj.start
