@@ -3,12 +3,16 @@ class Casino
     @interface = interface
   end
 
-  def start
+  def prepare
     name = @interface.ask_name
     @players = []
     @player = Player.new(name)
     @dealer = Dealer.new
     @players << @player << @dealer
+  end
+
+  def start
+    prepare
     loop do
       @interface.player_account(@player.name, @player.account)
       board = Board.new(@players, @interface)
