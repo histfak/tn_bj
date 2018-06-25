@@ -24,15 +24,19 @@ class Board
     @players.each { |player| player.hand = [] }
   end
 
+  def choice(player)
+    if player.is_a?(Dealer)
+      command = player.score >= 18 ? 3 : 1
+    else
+      @interface.choices
+      command = @interface.ask_command.to_i
+    end
+    command
+  end
+
   def turn
     @players.each do |player|
-      if player.is_a?(Dealer)
-        command = player.score >= 18 ? 3 : 1
-      else
-        @interface.choices
-        command = @interface.ask_command.to_i
-      end
-      case command
+      case choice(player)
       when 1 then player.hand << @deck.pick
       when 2
         check
