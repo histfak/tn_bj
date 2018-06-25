@@ -22,7 +22,7 @@ class Casino
         break
       end
       @interface.exit_msg
-      command = gets.chomp
+      command = @interface.ask_command
       break if %w[q Q].include?(command)
     end
   rescue RuntimeError => e

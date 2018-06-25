@@ -1,12 +1,17 @@
 class Interface
-  CHOICES = { c1: 'Enter 1 to pick a card',
-              c2: 'Enter 2 to place cards on the table',
-              c3: 'Enter 3 to skip the turn' }.freeze
-
   def ask_name
     print 'Please enter your name: '
     name = gets.chomp
     name
+  end
+
+  def ask_command
+    command = gets.chomp
+    command
+  end
+
+  def choices
+    puts "Enter 1 to pick a card\nEnter 2 to place cards on the table\nEnter 3 to skip the turn"
   end
 
   def player_lost_money
