@@ -46,9 +46,7 @@ class Board
       when 2
         check!
         break
-      when 3
-        @interface.skipping_turn
-        break
+      when 3 then @interface.skipping_turn
       end
     end
     check! if @players.any? { |player| player.hand.count == 3 }
@@ -61,11 +59,13 @@ class Board
     if (player.score > dealer.score && player.score <= 21) || (dealer.score > 21 && player.score <= 21)
       player.account += @bank
       @interface.player_wins(player)
-    elsif dealer.score <= 21 || player.score > 21
+    elsif dealer.score <= 21 && player.score > 21
       dealer.account += @bank
       @interface.dealer_wins
     elsif dealer.score == player.score
       @interface.draw
+      player.account += @bank/2
+      dealer.account += @bank/2
     end
     @win = true
   end
