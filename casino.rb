@@ -6,6 +6,9 @@ class Casino
     @player = Player.new(name)
     @dealer = Dealer.new
     @players << @player << @dealer
+  rescue RuntimeError => e
+    puts e.message
+    retry
   end
 
   def start
@@ -22,9 +25,6 @@ class Casino
       end
       break if quit
     end
-  rescue RuntimeError => e
-    puts e.message
-    retry
   end
 
   private
