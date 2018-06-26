@@ -6,6 +6,7 @@ require_relative 'player'
 require_relative 'dealer'
 require_relative 'interface'
 require_relative 'casino'
+require_relative 'accounting'
 
 interface = Interface.new
 bj = Casino.new(interface)

@@ -2,14 +2,14 @@ class Board
   def initialize(players, interface)
     @players = players
     @deck = Deck.new
-    @bank = 0
+    @accounting = Accounting.new
     @win = false
     @interface = interface
     reset
   end
 
   def game
-    bet
+    @accounting.bet(@players)
     deal_cards
     loop do
       view_board
@@ -53,14 +53,13 @@ class Board
     player = @players.first
     dealer = @players.last
     if (player.score > dealer.score && player.score <= 21) || (dealer.score > 21 && player.score <= 21)
-      player.account += @bank
+      @accounting.plus(player)
       @interface.player_wins(player)
     elsif dealer.score == player.score || (dealer.score > 21 && player.score > 21)
       @interface.draw
-      player.account += @bank / 2
-      dealer.account += @bank / 2
+      @accounting.draw(@players)
     elsif dealer.score <= 21 || player.score > 21
-      dealer.account += @bank
+      @accounting.plus(dealer)
       @interface.dealer_wins
     end
     @win = true
@@ -72,11 +71,6 @@ class Board
       player.hand.each { |card| @interface.card_to_s(card) }
       @interface.total_score(player)
     end
-  end
-
-  def bet
-    @players.each { |player| player.account -= 10 }
-    @bank += 20
   end
 
   def deal_cards
