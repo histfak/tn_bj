@@ -1,7 +1,6 @@
 class Casino
   def initialize(interface)
     @interface = interface
-    @players = []
     @dealer = Dealer.new
   end
 
@@ -9,7 +8,7 @@ class Casino
     greetings
     loop do
       @interface.player_account(@player.name, @player.account)
-      board = Board.new(@players, @interface)
+      board = Board.new(@player, @dealer, @interface)
       board.game
       if @player.account <= 0
         @interface.player_lost_money
@@ -27,7 +26,6 @@ class Casino
   def greetings
     name = @interface.ask_name
     @player = Player.new(name)
-    @players << @player << @dealer
   rescue RuntimeError => e
     puts e.message
     retry

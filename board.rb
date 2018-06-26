@@ -1,6 +1,9 @@
 class Board
-  def initialize(players, interface)
-    @players = players
+  def initialize(player, dealer, interface)
+    @player = player
+    @dealer = dealer
+    @players = []
+    @players << player << dealer
     @deck = Deck.new
     @accounting = Accounting.new
     @win = false
@@ -50,16 +53,14 @@ class Board
 
   def check
     view_all
-    player = @players.first
-    dealer = @players.last
-    if player.score > dealer.score && player.score <= 21 || dealer.score > 21 && player.score <= 21
-      @accounting.plus(player)
-      @interface.player_wins(player)
-    elsif dealer.score == player.score || (dealer.score > 21 && player.score > 21)
+    if @player.score > @dealer.score && @player.score <= 21 || @dealer.score > 21 && @player.score <= 21
+      @accounting.plus(@player)
+      @interface.player_wins(@player)
+    elsif @dealer.score == @player.score || (@dealer.score > 21 && @player.score > 21)
       @interface.draw
       @accounting.draw(@players)
-    elsif dealer.score <= 21 || player.score > 21
-      @accounting.plus(dealer)
+    elsif @dealer.score <= 21 || @player.score > 21
+      @accounting.plus(@dealer)
       @interface.dealer_wins
     end
     @win = true
@@ -80,9 +81,9 @@ class Board
   end
 
   def view_board
-    @interface.player_cards_msg(@players.first)
-    @players.first.hand.each { |card| @interface.card_to_s(card) }
-    @interface.total_score(@players.first)
+    @interface.player_cards_msg(@player)
+    @player.hand.each { |card| @interface.card_to_s(card) }
+    @interface.total_score(@player)
     @interface.new_line
   end
 end
