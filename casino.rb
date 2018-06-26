@@ -1,17 +1,12 @@
 class Casino
   def initialize(interface)
     @interface = interface
-    name = @interface.ask_name
     @players = []
-    @player = Player.new(name)
     @dealer = Dealer.new
-    @players << @player << @dealer
-  rescue RuntimeError => e
-    puts e.message
-    retry
   end
 
   def start
+    greetings
     loop do
       @interface.player_account(@player.name, @player.account)
       board = Board.new(@players, @interface)
@@ -28,6 +23,15 @@ class Casino
   end
 
   private
+
+  def greetings
+    name = @interface.ask_name
+    @player = Player.new(name)
+    @players << @player << @dealer
+  rescue RuntimeError => e
+    puts e.message
+    retry
+  end
 
   def quit
     @interface.exit_msg
