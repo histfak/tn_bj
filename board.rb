@@ -52,7 +52,7 @@ class Board
     view_all
     player = @players.first
     dealer = @players.last
-    if (player.score > dealer.score && player.score <= 21) || (dealer.score > 21 && player.score <= 21)
+    if player.score > dealer.score && player.score <= 21 || dealer.score > 21 && player.score <= 21
       @accounting.plus(player)
       @interface.player_wins(player)
     elsif dealer.score == player.score || (dealer.score > 21 && player.score > 21)
