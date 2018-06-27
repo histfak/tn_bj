@@ -1,4 +1,7 @@
 class Board
+  MAX_POINTS = 21
+  MAX_CARDS = 3
+
   def initialize(player, dealer, interface)
     @player = player
     @dealer = dealer
@@ -24,12 +27,12 @@ class Board
   private
 
   def reset
-    @players.each { |player| player.hand = [] }
+    @players.each(&:reset)
   end
 
   def choice(player)
     if player.is_a?(Dealer)
-      command = player.skip_choice
+      command = player.skip_or_not
     else
       @interface.choices
       command = @interface.ask_command.to_i
@@ -48,22 +51,34 @@ class Board
       else break
       end
     end
-    check if @players.any? { |player| player.hand.count == 3 }
+    check if @players.any? { |player| player.hand.count == MAX_CARDS }
   end
 
   def check
     view_all
-    if @player.score > @dealer.score && @player.score <= 21 || @dealer.score > 21 && @player.score <= 21
+    if win?
       @accounting.plus(@player)
       @interface.player_wins(@player)
-    elsif @dealer.score == @player.score || (@dealer.score > 21 && @player.score > 21)
+    elsif draw?
       @interface.draw
       @accounting.draw(@players)
-    elsif @dealer.score <= 21 || @player.score > 21
+    elsif lose?
       @accounting.plus(@dealer)
       @interface.dealer_wins
     end
     @win = true
+  end
+
+  def win?
+    @player.score > @dealer.score && @player.score <= MAX_POINTS || @dealer.score > MAX_POINTS && @player.score <= MAX_POINTS
+  end
+
+  def draw?
+    @dealer.score == @player.score || (@dealer.score > MAX_POINTS && @player.score > MAX_POINTS)
+  end
+
+  def lose?
+    @dealer.score <= MAX_POINTS || @player.score > MAX_POINTS
   end
 
   def view_all

@@ -22,6 +22,10 @@ class Player
     score
   end
 
+  def reset
+    @hand = []
+  end
+
   protected
 
   def validate!
