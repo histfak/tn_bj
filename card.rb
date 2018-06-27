@@ -7,5 +7,12 @@ class Card
   def initialize(rank, suit)
     @rank = rank
     @suit = suit
+    validate!
+  end
+
+  private
+
+  def validate!
+    raise 'Wrong parameters' unless RANKS.include?(@rank) && SUITS.include?(@suit)
   end
 end
