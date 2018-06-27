@@ -29,7 +29,7 @@ class Board
 
   def choice(player)
     if player.is_a?(Dealer)
-      command = player.score >= 18 ? 3 : 1
+      command = player.skip_choice
     else
       @interface.choices
       command = @interface.ask_command.to_i
