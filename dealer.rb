@@ -6,6 +6,6 @@ class Dealer < Player
   end
 
   def skip_or_not
-    score >= LIMIT ? 3 : 1
+    score >= LIMIT ? :skip : :pick
   end
 end

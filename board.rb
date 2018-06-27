@@ -35,7 +35,7 @@ class Board
       command = player.skip_or_not
     else
       @interface.choices
-      command = @interface.ask_command.to_i
+      command = @interface.ask_command
     end
     command
   end
@@ -43,11 +43,11 @@ class Board
   def turn
     @players.each do |player|
       case choice(player)
-      when 1 then player.hand << @deck.pick
-      when 2
+      when :pick then player.hand << @deck.pick
+      when :place
         check
         break
-      when 3 then @interface.skipping_turn
+      when :skip then @interface.skipping_turn
       else break
       end
     end

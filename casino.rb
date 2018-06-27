@@ -33,7 +33,7 @@ class Casino
 
   def quit
     @interface.exit_msg
-    command = @interface.ask_command
+    command = @interface.ask_exit
     %w[q Q].include?(command)
   end
 end

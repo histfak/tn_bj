@@ -7,6 +7,17 @@ class Interface
 
   def ask_command
     command = gets.chomp
+    if command == '1'
+      :pick
+    elsif command == '2'
+      :place
+    elsif command == '3'
+      :skip
+    end
+  end
+
+  def ask_exit
+    command = gets.chomp
     command
   end
 
